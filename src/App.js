@@ -1,14 +1,23 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import data from "./countries.json";
+// import data from "./countries.json";
 import Error from './components/Error';
 import CountriesList from './components/CountriesList';
 import CountryDetails from './components/CountryDetails';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios"
 
 function App() {
-  const [countries, setCountries] = useState(data)
+  const [countries, setCountries] = useState([])
+
+  useEffect(()=>{
+  axios
+  .get("https://ih-countries-api.herokuapp.com/countries")
+  .then(res => setCountries(res.data))
+  .catch(err=> console.log(err))
+  }, [])  // <--  [] means: Run the effect only once, after initial render
+  // Leçon W7 D5
 
   return (
     <div className="App">
@@ -30,12 +39,12 @@ export default App;
 
 // Iteration 3 | Fetch countries data from an API
 // Instead of relying on the static data from a json file, 
-// let's do something more interesting and get the data from an actual API.
+// let's get the data from an actual API.
 
 // In App.js, make a GET request to the URL 
 // https://ih-countries-api.herokuapp.com/countries. Use the data returned 
-// from the response as the list of the countries. You can use either fetch 
-// or axios to make the request.
+// from the response as the list of the countries.  
+// => use either fetch or axios to make the request.
 
 // You should use the useEffect() hook to set an effect that runs only once 
 // and makes a request to the API. Once you receive the response data, 
