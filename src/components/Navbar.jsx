@@ -3,11 +3,14 @@ import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <div>
-      <nav>
-        <NavLink to="/"> WIKI COUNTRIES NAVBAR </NavLink>
-      </nav>
-    </div>
+    <nav className="navbar navbar-dark bg-primary mb-3">
+      <div className="container">
+        <NavLink className="navbar-brand" to="/">
+          {' '}
+          WIKI COUNTRIES NAVBAR{' '}
+        </NavLink>
+      </div>
+    </nav>
   );
 };
 

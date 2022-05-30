@@ -7,8 +7,7 @@ const CountryDetails = ({ countries }) => {
 
   const theCountry = countries.find(
     (ctry) => ctry.alpha3Code === params.alpha3Code
-    // mon erreur  (ctry) => ctry.country.alpha3Code === params.alpha3Code
-    // (country) => country.alpha3Code === params.id Armelle
+    // (country) => country.alpha3Code === params.id  Armelle
   );
   console.log(theCountry);
 
@@ -44,7 +43,7 @@ const CountryDetails = ({ countries }) => {
             <td>
               <ul>
                 {theCountry.borders.length === 0 ? (
-                  <p> This country has no bordering countries</p>
+                  <p> No bordering countries</p>
                 ) : (
                   theCountry.borders.map((borderAlpha3Code) => {
                     const nameBorder = countries.find(

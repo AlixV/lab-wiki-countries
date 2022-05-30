@@ -9,38 +9,35 @@ const CountriesList = ({ countries }) => {
       <div>
         <Outlet />
       </div>
-      <div class="col-5" style={{ maxHeight: '90vh', overflow: 'scroll' }}>
-        {/* Modifier style provenant de l'exemple */}
-        <div class="list-group">
-          {/* <h1
-            style={{
-              color: 'pink',
-            }}
-          >
-            {' '}
-            WIKI COUNTRIES LIST
-          </h1> */}
-
-          {countries.map((country) => {
-            return (
-              <div>
-                <Link
-                  //   key={country.alpha3Code}
-                  //   to={`/${country.alpha3Code}`} fonctionne aussi
-                  to={country.alpha3Code}
-                  key={country.name.common}
-                  className="list-group-item list-group-item-action"
-                >
-                  <p>
-                    {country.name.common} {country.alpha3Code}
-                  </p>
-                </Link>
-                {/* 
-                {console.log(`${'country.alpha3Code : '}` + country.alpha3Code)} */}
-              </div>
-            );
-          })}
-        </div>
+      <div>
+        {countries.length > 0 ? (
+          <div class="col-5" style={{ maxHeight: '90vh', overflow: 'scroll' }}>
+            {/* Modifier 'style' provenant de l'exemple */}
+            <div class="list-group">
+              {countries.map((country) => {
+                return (
+                  <div>
+                    <Link
+                      //   key={country.alpha3Code} non ?
+                      //   to={`/${country.alpha3Code}`} fonctionne aussi
+                      to={country.alpha3Code}
+                      key={country.name.common}
+                      className="list-group-item list-group-item-action"
+                    >
+                      <img
+                        src={`https://flagpedia.net/data/flags/icon/72x54/${country.alpha2Code.toLowerCase()}.png`}
+                        alt={country.name.common + "'s flag"}
+                      />
+                      <p>{country.name.common}</p>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <p>Don't worry, it's loading...</p>
+        )}
       </div>
     </>
   );

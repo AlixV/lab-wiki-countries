@@ -24,30 +24,31 @@ function App() {
     <div className="App">
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<CountriesList countries={countries} />}>
-          <Route
-            path="/:alpha3Code"
-            element={<CountryDetails countries={countries} />}
-          />
-        </Route>
-
-        {/* 
-    Ou pas de route pour CountryList ? hmmmm
-    et  path="/:id"  :
-      <CountriesList countries={countries} />
-      <Routes >
-        <Route path="/:id" element={ <CountryDetails countries={countries} />} />
-      </Routes>
-     */}
-
-        <Route path="*" element={<Error />} />
-      </Routes>
+      <div className="container">
+        <div className="row">
+          <Routes>
+            <Route path="/" element={<CountriesList countries={countries} />}>
+              <Route
+                path="/:alpha3Code"
+                element={<CountryDetails countries={countries} />}
+              />
+            </Route>
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default App;
+
+// Ou pas de route pour CountryList ? hmmmm
+// et  path="/:id"  :
+//   <CountriesList countries={countries} />
+//   <Routes >
+//     <Route path="/:id" element={ <CountryDetails countries={countries} />} />
+//   </Routes>
 
 //  .then(countriesFetched => {
 //   setAllCountries(countriesFetched.data.sort((a, b) => a.name.common.localeCompare(b.name.common)));
