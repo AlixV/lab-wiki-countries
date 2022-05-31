@@ -16,16 +16,34 @@ function App() {
   useEffect(() => {
     axios
       .get('https://ih-countries-api.herokuapp.com/countries')
-      .then((res) => setCountries(res.data))
+      .then((res) => {
+        setCountries(
+          res.data.sort((a, b) =>
+            a.name.common.localeCompare(b.name.localeCompare)
+          )
+        );
+      })
       .catch((err) => console.log(err));
   }, []);
+
+  //  .then(countriesFetched => {
+  //   setAllCountries(countriesFetched.data.sort((a, b) => a.name.common.localeCompare(b.name.common)));
+  //   setLoading(!loading);
+  // })
 
   return (
     <div className="App">
       <Navbar />
-
       <div className="container">
         <div className="row">
+          {/* <CountriesList countries={countries} />
+              <Routes>
+                <Route
+                  path="/:id"
+                  element={<CountryDetails countries={countries} />}
+                />
+              </Routes> */}
+
           <Routes>
             <Route path="/" element={<CountriesList countries={countries} />}>
               <Route
@@ -49,11 +67,6 @@ export default App;
 //   <Routes >
 //     <Route path="/:id" element={ <CountryDetails countries={countries} />} />
 //   </Routes>
-
-//  .then(countriesFetched => {
-//   setAllCountries(countriesFetched.data.sort((a, b) => a.name.common.localeCompare(b.name.common)));
-//   setLoading(!loading);
-// })
 
 // Iteration 3 | Fetch countries data from an API
 // Instead of relying on the static data from a json file,

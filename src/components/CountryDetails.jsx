@@ -1,30 +1,59 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import axios from 'axios';
 
 const CountryDetails = ({ countries }) => {
   const params = useParams();
+  const [theCountry, setTheCountry] = useState({});
+  const [borders, setBorders] = useState([]);
 
-  const theCountry = countries.find(
-    (ctry) => ctry.alpha3Code === params.alpha3Code
-    // (country) => country.alpha3Code === params.id  Armelle
-  );
-  console.log(theCountry);
+  // const {countryAlpha3Code} = useParams(); <-Arthur
 
-  // const bordersCountry = theCountry.borders.map((borderAlphaCode) => {
-  //   const nameBorder = countries.find(
-  //     (country) => country.alpha3Code === borderAlphaCode
-  //   );
-  //   return nameBorder.name.common;
-  // });
-  // console.log('---> typeof bordersCountry : ' + typeof bordersCountry);
-  // console.log(bordersCountry);
+  // - ITERATION PRÉCÉDENTE :use countries en props -
+  // const theCountry = countries.find(
+  //   (ctry) => ctry.alpha3Code === params.alpha3Code
+  // );
 
-  // EN COURS
+  console.log('1 params : ' + params);
+  console.log('2 params.alpha3Code : ' + params.alpha3Code);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://ih-countries-api.herokuapp.com/countries/${params.alpha3Code}`
+      )
+      .then(({ data }) => {
+        // Et non : .then((res) => {
+        console.log('3 data : ' + data);
+        setTheCountry(data);
+      })
+      .catch((err) => console.log(err));
+  }, [params.alpha3Code]);
+  console.log('4 theCountry : ' + theCountry);
+
+  useEffect(() => {
+    // useEffect pour autre chose que requete axios
+    if (!theCountry.borders) return;
+    const bordersToAdd = theCountry.borders.map((borderAlpha3Code) => {
+      const nameBorder = countries.find(
+        (country) => country.alpha3Code === borderAlpha3Code
+      );
+      return nameBorder.name.common;
+    });
+    setBorders(bordersToAdd);
+  }, [theCountry]);
+
+  // Au choix pour .get('https://ih-countries-api.herokuapp.com/countries/' + params.alpha3Code)
+
+  if (!theCountry.name) return <div> Loading... </div>; // IMPORTANT, sinon fonctionne pas !
   return (
-    <div class="col-7">
+    <div className="col-7">
+      <img
+        src={`https://flagpedia.net/data/flags/icon/72x54/${theCountry.alpha2Code.toLowerCase()}.png`}
+        alt={theCountry.name.common + "'s flag"}
+      />
       <h1>{theCountry.name.common}</h1>
-      <table class="table">
+      <table className="table">
         <thead></thead>
         <tbody>
           <tr>
@@ -42,10 +71,35 @@ const CountryDetails = ({ countries }) => {
             <td>Borders</td>
             <td>
               <ul>
+                {borders.length === 0 ? (
+                  <p> {theCountry.name.common} has no bordering countries</p>
+                ) : (
+                  borders.map((ctry, i) => {
+                    return (
+                      <li key={ctry} style={{ listStyleType: 'none' }}>
+                        <Link to={`/${theCountry.borders[i]}`}>{ctry}</Link>
+                      </li>
+                    );
+                  })
+                )}
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default CountryDetails;
+
+/* 
+Méthode SANS LE 2ND USE EFFECT :
+<ul>
                 {theCountry.borders.length === 0 ? (
                   <p> No bordering countries</p>
                 ) : (
-                  theCountry.borders.map((borderAlpha3Code) => {
+                  theCountry.borders.map((borderAlpha3Code) => { JE LE FAISAIS POUR CHAQUE
                     const nameBorder = countries.find(
                       (country) => country.alpha3Code === borderAlpha3Code
                     );
@@ -61,9 +115,10 @@ const CountryDetails = ({ countries }) => {
                     );
                   })
                 )}
-              </ul>
+              </ul> 
+            */
 
-              {/* 
+/*  PREMIERS ESSAIS :
               <ul>
                 {bordersCountry.length === 0 ? (
                   <p> This countries has no bordering countries</p>
@@ -80,16 +135,16 @@ const CountryDetails = ({ countries }) => {
             })} 
                 )}
               </ul> 
-              */}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-};
+              */
 
-export default CountryDetails;
+// const bordersCountry = theCountry.borders.map((borderAlphaCode) => {
+//   const nameBorder = countries.find(
+//     (country) => country.alpha3Code === borderAlphaCode
+//   );
+//   return nameBorder.name.common;
+// });
+// console.log('---> typeof bordersCountry : ' + typeof bordersCountry);
+// console.log(bordersCountry);
 
 // si border, pour chaque border link to alpha3Code et comon name
 // le code border doit être converti en nom pays
