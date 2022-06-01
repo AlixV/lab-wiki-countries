@@ -5,9 +5,9 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-dark bg-primary mb-3">
       <div className="container">
-        <NavLink className="navbar-brand" to="/">
+        <NavLink to="/" className="navbar-brand">
           {' '}
-          WIKI COUNTRIES NAVBAR{' '}
+          WIKI COUNTRIES{' '}
         </NavLink>
       </div>
     </nav>

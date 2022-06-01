@@ -18,8 +18,8 @@ const CountriesList = ({ countries }) => {
             <div className="list-group">
               {countries.map((country) => {
                 return (
-                  <div
-                    key={country.name.common} // Ici pour la key !
+                  <div // Ici pour la key !
+                    key={country.name.common}
                     className="list-group-item list-group-item-action"
                   >
                     <img
@@ -27,9 +27,7 @@ const CountriesList = ({ countries }) => {
                       alt={country.name.common + "'s flag"}
                     />
                     <Link
-                      //   key={country.alpha3Code} non ?
-                      to={`/${country.alpha3Code}`}
-                      //  to={country.alpha3Code} fonctionne aussi
+                      to={`/${country.alpha3Code}`} //  to={country.alpha3Code} fonctionne aussi
                     >
                       <p>{country.name.common}</p>
                     </Link>

@@ -7,15 +7,14 @@ const CountryDetails = ({ countries }) => {
   const [theCountry, setTheCountry] = useState({});
   const [borders, setBorders] = useState([]);
 
-  // const {countryAlpha3Code} = useParams(); <-Arthur
+  // const {countryAlpha3Code} = useParams(); <- Arthur
 
-  // - ITERATION PRÉCÉDENTE :use countries en props -
+  // - ITERATION PRÉCÉDENTE : Use countries en props -
   // const theCountry = countries.find(
   //   (ctry) => ctry.alpha3Code === params.alpha3Code
   // );
-
-  console.log('1 params : ' + params);
-  console.log('2 params.alpha3Code : ' + params.alpha3Code);
+  // console.log('1/ params : ' + params); => L'objet
+  // console.log('2/ params.alpha3Code : ' + params.alpha3Code); => 3 lettres uniquement
 
   useEffect(() => {
     axios
@@ -24,12 +23,12 @@ const CountryDetails = ({ countries }) => {
       )
       .then(({ data }) => {
         // Et non : .then((res) => {
-        console.log('3 data : ' + data);
+        console.log('3/ data : ' + data);
         setTheCountry(data);
       })
       .catch((err) => console.log(err));
   }, [params.alpha3Code]);
-  console.log('4 theCountry : ' + theCountry);
+  console.log('4/ theCountry : ' + theCountry);
 
   useEffect(() => {
     // useEffect pour autre chose que requete axios
@@ -75,6 +74,7 @@ const CountryDetails = ({ countries }) => {
                   <p> {theCountry.name.common} has no bordering countries</p>
                 ) : (
                   borders.map((ctry, i) => {
+                    // utilité i ?
                     return (
                       <li key={ctry} style={{ listStyleType: 'none' }}>
                         <Link to={`/${theCountry.borders[i]}`}>{ctry}</Link>

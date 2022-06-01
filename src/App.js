@@ -3,10 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 // import data from "./countries.json";
 import Error from './components/Error';
-
 import CountriesList from './components/CountriesList';
 import CountryDetails from './components/CountryDetails';
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -25,11 +23,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, []);
-
-  //  .then(countriesFetched => {
-  //   setAllCountries(countriesFetched.data.sort((a, b) => a.name.common.localeCompare(b.name.common)));
-  //   setLoading(!loading);
-  // })
 
   return (
     <div className="App">
